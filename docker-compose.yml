@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - MAX_WORKERS=4
+    
+  code-executor-python:
+    build:
+      context: ./executors/python
+    image: code-executor-python
+    
+  code-executor-node:
+    build:
+      context: ./executors/node
+    image: code-executor-node
+    
+  code-executor-cpp:
+    build:
+      context: ./executors/cpp
+    image: code-executor-cpp
