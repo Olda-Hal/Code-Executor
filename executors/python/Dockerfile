@@ -1,9 +1,17 @@
-FROM python:3.11-slim
+FROM base as python-executor
 
-WORKDIR /app
-COPY runner.py /app/
+# Copy the script and set permissions
+COPY ./python-runner.sh /python-runner.sh
+RUN chmod +x /python-runner.sh
 
-ENV CODE=""
-ENV INPUT=""
+# Debug: Print the script content and permissions
+RUN ls -l /python-runner.sh && cat /python-runner.sh
 
-CMD ["python", "runner.py"]
+# Switch to unprivileged user
+USER executor
+
+# Ensure the script has the correct shebang
+RUN head -n 1 /python-runner.sh | grep -q '^#!/'
+
+# Set the entrypoint to the script
+CMD ["/python-runner.sh"]

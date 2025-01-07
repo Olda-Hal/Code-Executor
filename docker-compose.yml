@@ -7,20 +7,19 @@ services:
       - "8000:8000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
     environment:
       - MAX_WORKERS=4
     
-  code-executor-python:
+  python-executor:
     build:
       context: ./executors/python
+      dockerfile: Dockerfile
     image: code-executor-python
-    
-  code-executor-node:
-    build:
-      context: ./executors/node
-    image: code-executor-node
-    
-  code-executor-cpp:
-    build:
-      context: ./executors/cpp
-    image: code-executor-cpp
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
