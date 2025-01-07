@@ -1,6 +1,12 @@
 version: '3.8'
 
 services:
+  base-executor:
+    build:
+      context: ./executors
+      dockerfile: Dockerfile
+    image: base
+
   api:
     build: .
     ports:
@@ -13,7 +19,7 @@ services:
       - seccomp:unconfined
     environment:
       - MAX_WORKERS=4
-    
+
   python-executor:
     build:
       context: ./executors/python

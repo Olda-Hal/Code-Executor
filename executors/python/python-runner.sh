@@ -9,17 +9,13 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# lock file
-exec 9>/var/local/lib/isolate/$SANDBOX_ID/box.lock
-flock -n 9 || exit 1
-
 # isolate init
 isolate --init --box-id=$SANDBOX_ID
 
 # Create files
 echo "$CODE" > /var/local/lib/isolate/$SANDBOX_ID/box/code.py
 echo "$INPUT" > /var/local/lib/isolate/$SANDBOX_ID/box/input.txt
-
+touch /var/local/lib/isolate/$SANDBOX_ID/meta.txt
 # run code
 isolate --box-id=$SANDBOX_ID \
     --time=5 \

@@ -7,9 +7,6 @@ RUN chmod +x /python-runner.sh
 # Debug: Print the script content and permissions
 RUN ls -l /python-runner.sh && cat /python-runner.sh
 
-# Switch to unprivileged user
-USER executor
-
 # Ensure the script has the correct shebang
 RUN head -n 1 /python-runner.sh | grep -q '^#!/'
 
