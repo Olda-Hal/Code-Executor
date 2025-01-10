@@ -5,17 +5,26 @@ from enum import Enum
 @dataclass(frozen=True)
 class Language:
     name: str
-    image: str
     file_extension: str
+
+    @property
+    def image(self) -> str:
+        return f"code-executor-{self.name}"
 
 
 class Languages(Enum):
-    ASM = Language("asm", "code-executor-asm", ".s")
-    CPP = Language("cpp", "code-executor-cpp", ".cpp")
-    HASKELL = Language("haskell", "code-executor-haskell", ".hs")
-    JAVASCRIPT = Language("javascript", "code-executor-node", ".js")
-    LLVM = Language("llvm", "code-executor-llvm", ".ll")
-    PYTHON = Language("python", "code-executor-python", ".py")
+    ASM = Language("asm", ".s")
+    BASH = Language("bash", ".sh")
+    BRAINFUCK = Language("brainfuck", ".bf")
+    CPP = Language("cpp", ".cpp")
+    GO = Language("go", ".go")
+    HASKELL = Language("haskell", ".hs")
+    JAVA = Language("java", ".java")
+    JAVASCRIPT = Language("javascript", ".js")
+    LLVM = Language("llvm", ".ll")
+    PYTHON = Language("python", ".py")
+    QBE = Language("qbe", ".ssa")
+    RUST = Language("rust", ".rs")
 
     __supported_languages: set[str] = set()
     __name_lookup: dict[str, Language] = {}
