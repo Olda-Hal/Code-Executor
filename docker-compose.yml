@@ -3,9 +3,9 @@ version: '3.8'
 services:
   base-executor:
     build:
-      context: ./executors
+      context: ./runners
       dockerfile: Dockerfile
-    image: base
+    image: runnerbase
 
   api:
     build: .
@@ -19,13 +19,3 @@ services:
       - seccomp:unconfined
     environment:
       - MAX_WORKERS=4
-
-  python-executor:
-    build:
-      context: ./executors/python
-      dockerfile: Dockerfile
-    image: code-executor-python
-    cap_add:
-      - SYS_ADMIN
-    security_opt:
-      - seccomp:unconfined
