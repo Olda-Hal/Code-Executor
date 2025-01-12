@@ -19,15 +19,19 @@ class Languages(Enum):
     C = Language("c", ".c")
     CSHARP = Language("csharp", ".cs")  # C#
     CPP = Language("cpp", ".cpp")
+    ELIXIR = Language("elixir", ".ex")
     GO = Language("go", ".go")
     HASKELL = Language("haskell", ".hs")
     JAVA = Language("java", ".java")
     JAVASCRIPT = Language("javascript", ".js")
+    LISP = Language("lisp", ".lisp")
     LLVM = Language("llvm", ".ll")
     MATLAB = Language("matlab", ".m")
     PYTHON = Language("python", ".py")
     QBE = Language("qbe", ".ssa")
     RUST = Language("rust", ".rs")
+    SCHEME = Language("scheme", ".scm")
+    SQL = Language("sql", ".sql")
 
     __supported_languages: set[str] = set()
     __name_lookup: dict[str, Language] = {}
