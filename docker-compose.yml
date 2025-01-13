@@ -4,6 +4,7 @@ services:
       context: ./runners
       dockerfile: Dockerfile
     image: baserunner
+    privileged: true
 
   api:
     build: .
@@ -29,6 +30,7 @@ services:
       - baserunner
     networks:
       - network
+    privileged: true
   c:
     build:
       context: ./runners/c
@@ -38,6 +40,7 @@ services:
       - baserunner
     networks:
       - network
+    privileged: true
   haskell:
     build:
       context: ./runners/haskell
@@ -47,6 +50,7 @@ services:
       - baserunner
     networks:
       - network
+    privileged: true
 
 networks:
   network:
