@@ -6,6 +6,7 @@ import docker
 from docker.models.containers import Container
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+import requests
 
 from languages import Language, Languages
 
@@ -26,41 +27,20 @@ async def execute_code(execution: CodeExecution):
         raise HTTPException(status_code=400, detail="Unsupported language")
 
     language_config = Languages.get_by_name(execution.language)
+    print(language_config)
+    if execution.input is not None:
+        if " " in execution.input:
+            code_input = execution.input.split(" ")
+        else:
+            code_input = [execution.input]
+    else:
+        code_input = None
 
-    container_name = f"execution-{str(uuid.uuid4())}"
+    response = requests.post(language_config.http + "/execute", json={
+        "code": execution.code,
+        "script": language_config.script,
+        "arguments": code_input
 
-    try:
-        container = client.containers.run(
-            language_config.image,
-            environment={
-                "CODE": execution.code,
-                "INPUT": execution.input or "",
-            },
-            name=container_name,
-            detach=True,
-            mem_limit="100m",
-            cpu_period=100000,
-            cpu_quota=50000,
-            network_mode="none",
-        )
-
-        try:
-            await asyncio.wait_for(
-                asyncio.to_thread(container.wait), timeout=execution.timeout
-            )
-
-            logs = container.logs().decode().strip()
-            return {"status": "success", "output": logs}
-
-        except asyncio.TimeoutError:
-            container.kill()
-            raise HTTPException(status_code=408, detail="Execution timeout")
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-    finally:
-        try:
-            container.remove(force=True)
-        except:
-            pass
+    })
+    print(response.content)
+    return response.content

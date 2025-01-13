@@ -17,6 +17,8 @@ services:
       - seccomp:unconfined
     environment:
       - MAX_WORKERS=4
+    networks:
+      - network
 
   python:
     build:
@@ -25,3 +27,9 @@ services:
     image: pythonrunner
     depends_on:
       - baserunner
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge

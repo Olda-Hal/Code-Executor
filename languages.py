@@ -8,8 +8,11 @@ class Language:
     file_extension: str
 
     @property
-    def image(self) -> str:
-        return f"code-executor-{self.name}"
+    def http(self) -> str:
+        return f"http://{self.name}:8000"
+    @property
+    def script(self) -> str:
+        return f"{self.name}-runner.sh"
 
 
 class Languages(Enum):

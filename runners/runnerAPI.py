@@ -15,12 +15,15 @@ class CodeRequest(BaseModel):
 
 @app.post("/execute")
 async def execute_code(request: CodeRequest):
+    print("request")
     code = request.code
     script = request.script
     arguments = request.arguments if request.arguments else []
     
     os.environ['CODE'] = code
     os.environ['ARGUMENTS'] = " ".join(arguments)
+    print(script)
+    print(code)
     result = subprocess.run(
         ["bash", script],
         capture_output=True,

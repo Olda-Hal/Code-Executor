@@ -1,4 +1,5 @@
-#bin/bash
+#!/bin/bash
 
 echo "$CODE" > script.py
-python script.py "$INPUT"
+output=$(python script.py "$INPUT")
+echo "$output"
