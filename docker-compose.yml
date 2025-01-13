@@ -29,6 +29,15 @@ services:
       - baserunner
     networks:
       - network
+  c:
+    build:
+      context: ./runners/c
+      dockerfile: Dockerfile
+    image: crunner
+    depends_on:
+      - baserunner
+    networks:
+      - network
 
 networks:
   network:

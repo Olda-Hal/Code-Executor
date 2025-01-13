@@ -42,5 +42,4 @@ async def execute_code(execution: CodeExecution):
         "arguments": code_input
 
     })
-    print(response.content)
-    return response.content
+    return response.json()
