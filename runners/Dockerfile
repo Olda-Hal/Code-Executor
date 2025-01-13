@@ -17,6 +17,3 @@ RUN apt-get update && apt-get install -y bubblewrap
 
 # Set up bubblewrap
 RUN ln -s /usr/bin/bwrap /usr/local/bin/bwrap
-
-
-CMD ["python3", "/usr/src/app/runnerAPI.py"]

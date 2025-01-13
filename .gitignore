@@ -171,3 +171,4 @@ cython_debug/
 .pypirc
 request.py
 test.c
+file.hs

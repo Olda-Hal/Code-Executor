@@ -38,6 +38,15 @@ services:
       - baserunner
     networks:
       - network
+  haskell:
+    build:
+      context: ./runners/haskell
+      dockerfile: Dockerfile
+    image: haskellrunner
+    depends_on:
+      - baserunner
+    networks:
+      - network
 
 networks:
   network:
