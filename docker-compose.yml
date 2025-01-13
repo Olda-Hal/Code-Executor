@@ -1,5 +1,5 @@
 services:
-  runnerbase:
+  baserunner:
     build:
       context: ./runners
       dockerfile: Dockerfile
@@ -23,3 +23,5 @@ services:
       context: ./runners/python
       dockerfile: Dockerfile
     image: pythonrunner
+    depends_on:
+      - baserunner
