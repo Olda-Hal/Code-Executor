@@ -51,6 +51,16 @@ services:
     networks:
       - network
     privileged: true
+  asm:
+    build:
+      context: ./runners/asm
+      dockerfile: Dockerfile
+    image: asmrunner
+    depends_on:
+      - baserunner
+    networks:
+      - network
+    privileged: true
 
 networks:
   network:

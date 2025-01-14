@@ -172,3 +172,4 @@ cython_debug/
 request.py
 test.c
 file.hs
+test.s
