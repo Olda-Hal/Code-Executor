@@ -16,7 +16,6 @@ class Language:
 
 
 class Languages(Enum):
-    ASM = Language("asm", ".s")
     BASH = Language("bash", ".sh")
     BRAINFUCK = Language("brainfuck", ".bf")
     C = Language("c", ".c")

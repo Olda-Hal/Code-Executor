@@ -1,3 +1,6 @@
+networks:
+  network:
+    driver: bridge
 services:
   baserunner:
     build:
@@ -61,7 +64,3 @@ services:
     networks:
       - network
     privileged: true
-
-networks:
-  network:
-    driver: bridge
