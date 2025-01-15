@@ -34,6 +34,7 @@ class Languages(Enum):
     RUST = Language("rust", ".rs")
     SCHEME = Language("scheme", ".scm")
     SQL = Language("sql", ".sql")
+    ASM = Language("asm", ".s")
     """
     __supported_languages: set[str] = set()
     __name_lookup: dict[str, Language] = {}
@@ -53,6 +54,7 @@ class Languages(Enum):
         for lang in cls:
             if language == lang.value.name:
                 return True
+        return False
         return language in cls.__supported_languages
 
     @classmethod

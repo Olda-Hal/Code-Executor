@@ -173,3 +173,7 @@ request.py
 test.c
 file.hs
 test.s
+test.cs
+*.tar
+test.py
+*.gz

@@ -1,6 +1,6 @@
 FROM ubuntu:latest as baserunner
 
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv xxd
 
 # creation of venv
 RUN python3 -m venv /usr/src/app/venv

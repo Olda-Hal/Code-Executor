@@ -16,9 +16,9 @@ client = docker.from_env()
 
 class CodeExecution(BaseModel):
     language: str
-    code: str
-    input: Optional[str] = None
+    project: str
     timeout: Optional[int] = 10
+    execfile: str
 
 
 @app.post("/execute")
@@ -27,19 +27,15 @@ async def execute_code(execution: CodeExecution):
         raise HTTPException(status_code=400, detail="Unsupported language")
 
     language_config = Languages.get_by_name(execution.language)
-    print(language_config)
-    if execution.input is not None:
-        if " " in execution.input:
-            code_input = execution.input.split(" ")
-        else:
-            code_input = [execution.input]
-    else:
-        code_input = None
+
+    execfile = execution.execfile
+    if not execfile.endswith(language_config.file_extension):
+        execfile += language_config.file_extension
 
     response = requests.post(language_config.http + "/execute", json={
-        "code": execution.code,
+        "project": execution.project,
         "script": language_config.script,
-        "arguments": code_input
-
+        "execfile": execfile,
+        "timeout": execution.timeout
     })
     return response.json()

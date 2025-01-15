@@ -64,3 +64,13 @@ services:
     networks:
       - network
     privileged: true
+  csharp:
+    build:
+      context: ./runners/csharp
+      dockerfile: Dockerfile
+    image: csharprunner
+    depends_on:
+      - baserunner
+    networks:
+      - network
+    privileged: true

@@ -9,21 +9,24 @@ import uvicorn
 app = fastapi.FastAPI()
 
 class CodeRequest(BaseModel):
-    code: str
+    project: str
     script: str
-    arguments: Optional[List[str]] = None
+    execfile: str
+    timeout: int
 
 @app.post("/execute")
 async def execute_code(request: CodeRequest):
     print("request")
-    code = request.code
+    project = request.project
     script = request.script
-    arguments = request.arguments if request.arguments else []
+    execfile = request.execfile
+    timeout = request.timeout
     
-    os.environ['CODE'] = code
-    os.environ['ARGUMENTS'] = " ".join(arguments)
-    print(script)
-    print(code)
+    print(project)
+    os.environ['PROJECT'] = project
+    os.environ['EXECFILE'] = execfile
+    os.environ['TIMEOUT'] = str(timeout)
+
     result = subprocess.run(
         ["bash", script],
         capture_output=True,
