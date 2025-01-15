@@ -5,7 +5,7 @@ mkdir -p /run/user/$(id -u)/project
 gunzip /run/user/$(id -u)/script.tar.gz
 tar --warning=no-unknown-keyword -xf /run/user/$(id -u)/script.tar -C /run/user/$(id -u)/project/
 chmod -R 777 /run/user/$(id -u)/project/
-output=$(exec bwrap --ro-bind /usr /usr \
+output=$(exec timeout $TIMEOUT bwrap --ro-bind /usr /usr \
     --dir /tmp \
     --dir /var \
     --symlink ../tmp var/tmp \

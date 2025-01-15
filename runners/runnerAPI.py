@@ -25,7 +25,7 @@ async def execute_code(request: CodeRequest):
     print(project)
     os.environ['PROJECT'] = project
     os.environ['EXECFILE'] = execfile
-    os.environ['TIMEOUT'] = str(timeout)
+    os.environ['TIMEOUT'] = str(timeout) + "s"
 
     result = subprocess.run(
         ["bash", script],

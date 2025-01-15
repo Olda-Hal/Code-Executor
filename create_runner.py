@@ -26,10 +26,14 @@ CMD ["python3", "/usr/src/app/runnerAPI.py"]'''
     
     # Create runner shell script
     runner_script_content = f'''#!/bin/bash
+
 mkdir -p /run/user/$(id -u)
-echo "$CODE" > /run/user/$(id -u)/script{file_extension}
-chmod 777 /run/user/$(id -u)/script{file_extension}
-output=$(exec bwrap --ro-bind /usr /usr \\
+echo "$PROJECT" | xxd -r -p > /run/user/$(id -u)/script.tar.gz
+mkdir -p /run/user/$(id -u)/project
+gunzip /run/user/$(id -u)/script.tar.gz
+tar --warning=no-unknown-keyword -xf /run/user/$(id -u)/script.tar -C /run/user/$(id -u)/project/
+chmod -R 777 /run/user/$(id -u)/project/
+output=$(exec timeout $TIMEOUT bwrap --ro-bind /usr /usr \\
     --dir /tmp \\
     --dir /var \\
     --symlink ../tmp var/tmp \\
@@ -47,8 +51,10 @@ output=$(exec bwrap --ro-bind /usr /usr \\
     --dir /run/user/$(id -u) \\
     --setenv XDG_RUNTIME_DIR "/run/user/$(id -u)" \\
     --setenv PS1 "bwrap-demo$ " \\
-    /bin/bash -c "echo running not implemented")
-echo "$output"'''
+    /bin/bash echo "not implemented")
+echo "$output"
+
+rm -rf /run/user/$(id -u)'''
     
     with open(f'{runner_dir}/{language_name}-runner.sh', 'w') as f:
         f.write(runner_script_content)
