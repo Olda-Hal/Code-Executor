@@ -1,6 +1,6 @@
 import requests
 
-with open('testing/tests.tar.gz', 'rb') as file:
+with open('tests.tar.gz', 'rb') as file:
     project = file.read()
     project_hex = project.hex()
 
