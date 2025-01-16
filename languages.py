@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum, EnumMeta
+from typing import cast
 
 
 @dataclass(frozen=True)
@@ -19,7 +20,7 @@ class Language:
 class LanguagesMeta(EnumMeta):
     def __init__(cls, name, bases, dct):
         super().__init__(name, bases, dct)
-        cls._initialize()
+        cls._initialize()  # type: ignore[attr-defined]
 
 
 class Languages(Enum, metaclass=LanguagesMeta):
@@ -49,7 +50,9 @@ class Languages(Enum, metaclass=LanguagesMeta):
     @classmethod
     def _initialize(cls):
         cls.__language_names = {lang.value.name for lang in cls}
-        cls.__name_lookup = {lang.value.name: lang for lang in cls}
+        cls.__name_lookup = cast(
+            dict[str, Language], {lang.value.name: lang for lang in cls}
+        )
 
     @classmethod
     def is_supported(cls, language: str) -> bool:
