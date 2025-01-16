@@ -177,3 +177,4 @@ test.cs
 *.tar
 test.py
 *.gz
+testing/

@@ -19,7 +19,7 @@ class Languages(Enum):
     BASH = Language("bash", ".sh")
     BRAINFUCK = Language("brainfuck", ".bf")
     C = Language("c", ".c")
-    CSHARP = Language("csharp", ".cs")  # C#
+    CSHARP = Language("csharp", ".csproj")  # C#
     CPP = Language("cpp", ".cpp")
     ELIXIR = Language("elixir", ".ex")
     GO = Language("go", ".go")
