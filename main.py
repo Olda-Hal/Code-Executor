@@ -1,14 +1,11 @@
-import asyncio
-import uuid
 from typing import Optional
 
 import docker
-from docker.models.containers import Container
+import requests
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import requests
 
-from languages import Language, Languages
+from languages import Languages
 
 app = FastAPI()
 client = docker.from_env()
@@ -32,10 +29,13 @@ async def execute_code(execution: CodeExecution):
     if not execfile.endswith(language_config.file_extension):
         execfile += language_config.file_extension
 
-    response = requests.post(language_config.http + "/execute", json={
-        "project": execution.project,
-        "script": language_config.script,
-        "execfile": execfile,
-        "timeout": execution.timeout
-    })
+    response = requests.post(
+        language_config.http + "/execute",
+        json={
+            "project": execution.project,
+            "script": language_config.script,
+            "execfile": execfile,
+            "timeout": execution.timeout,
+        },
+    )
     return response.json()

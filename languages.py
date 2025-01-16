@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, EnumMeta
 
 
 @dataclass(frozen=True)
@@ -10,12 +10,19 @@ class Language:
     @property
     def http(self) -> str:
         return f"http://{self.name}:8000"
+
     @property
     def script(self) -> str:
         return f"{self.name}-runner.sh"
 
 
-class Languages(Enum):
+class LanguagesMeta(EnumMeta):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        cls._initialize()
+
+
+class Languages(Enum, metaclass=LanguagesMeta):
     BASH = Language("bash", ".sh")
     BRAINFUCK = Language("brainfuck", ".bf")
     C = Language("c", ".c")
@@ -35,34 +42,20 @@ class Languages(Enum):
     SCHEME = Language("scheme", ".scm")
     SQL = Language("sql", ".sql")
     ASM = Language("asm", ".s")
-    """
-    __supported_languages: set[str] = set()
+
+    __language_names: set[str] = set()
     __name_lookup: dict[str, Language] = {}
 
-    def __init__(self, *args):
-        cls = self.__class__
-        if not cls.__supported_languages:
-            cls.__supported_languages = {lang.value.name for lang in cls}
+    @classmethod
+    def _initialize(cls):
+        cls.__language_names = {lang.value.name for lang in cls}
+        cls.__name_lookup = {lang.value.name: lang for lang in cls}
 
-        if not cls.__name_lookup:
-            cls.__name_lookup = {lang.value.name: lang.value for lang in cls}
-
-        super().__init__()
-    """
     @classmethod
     def is_supported(cls, language: str) -> bool:
-        for lang in cls:
-            if language == lang.value.name:
-                return True
-        return False
-        return language in cls.__supported_languages
+        return language in cls.__language_names
 
     @classmethod
     def get_by_name(cls, language: str) -> Language:
-        
-        for lang in cls:
-            if language == lang.value.name:
-                return lang.value
-        
-        
+        print(cls.__name_lookup)
         return cls.__name_lookup[language]
